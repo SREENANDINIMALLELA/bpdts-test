@@ -10,7 +10,7 @@ const controller = require('../../controllers/users/functions');
 chai.use(chaiHttp);
 
 describe("usersController.getUsersFromCity", () => {
-  it("should return an array of London users when called with 'London'", (done) => {
+  it("should return a populated users when called with a valid city", (done) => {
 
     nock('https://bpdts-test-app.herokuapp.com')
       .get('/city/London/users')
@@ -40,15 +40,6 @@ describe("usersController.getUsersFromCity", () => {
 
     done();
 
-  });
-});
-
-describe("usersController.asCoOrds", () => {
-  it("should return a coordinates object", (done) => {
-    const result = controller.asCoOrds(12.345, -1.234)
-
-    expect(result).to.eql({ latitude: 12.345, longitude: -1.234 });
-    done();
   });
 });
 
