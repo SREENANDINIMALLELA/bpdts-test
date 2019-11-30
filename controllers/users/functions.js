@@ -1,11 +1,12 @@
 const axios = require('axios');
 const geolib = require('geolib');
+const _ = require('lodash');
 const constants = require('../../lib/constants');
 
 const getUsers = (req, res) => {
-  axios.all([getUsersFromCity("London"), getUsersWithinDistance(constants.LONDON, 50)])
+  axios.all([getUsersFromCity(req.params.city), getUsersWithinDistance(constants[req.params.city], 50)])
   .then(axios.spread(function(londonUsers, filteredUsers) {
-    res.status(200).send(londonUsers.data.concat(filteredUsers));
+    res.status(200).send(_.union(londonUsers.data, filteredUsers));
   }))
   .catch(errors => {
     res.status(500).send(errors);

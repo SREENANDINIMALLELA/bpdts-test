@@ -14,11 +14,28 @@ describe("usersController.getUsersFromCity", () => {
 
     nock('https://bpdts-test-app.herokuapp.com')
       .get('/city/London/users')
-      .reply(200, responseData);
+      .reply(200, responseData.usersData);
 
     controller.getUsersFromCity("London")
       .then( result => {
         expect(result).to.have.status(200);
+        expect(result.data).to.have.lengthOf(10);
+      });
+
+    done();
+
+  });
+
+  it("should return an empty array when no results for city found", (done) => {
+
+    nock('https://bpdts-test-app.herokuapp.com')
+      .get('/city/INVALID/users')
+      .reply(200, []);
+
+    controller.getUsersFromCity("INVALID")
+      .then( result => {
+        expect(result).to.have.status(200);
+        expect(result.data).to.have.lengthOf(0);
       });
 
     done();
@@ -32,7 +49,7 @@ describe("usersController.asCoOrds", () => {
 
     expect(result).to.eql({ latitude: 12.345, longitude: -1.234 });
     done();
-  })
+  });
 });
 
 describe("usersController.getDistance", () => {
