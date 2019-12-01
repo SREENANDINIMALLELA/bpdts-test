@@ -3,6 +3,6 @@ const functions = require('./functions');
 
 const router = new express.Router();
 
-router.get('/users/:city', functions.getUsers);
+router.get('/:city', functions.getUsers);
 
 module.exports = router;
